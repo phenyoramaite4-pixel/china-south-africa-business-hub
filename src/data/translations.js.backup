@@ -1,0 +1,154 @@
+// Translation dictionary for the China–South Africa Business Hub.
+//
+// Architecture: each supported language is a flat-ish object of
+// namespaced keys. Components call `t('namespace.key')` via the
+// LanguageContext. Add a new language by adding a new top-level key
+// here — no other code changes are required for existing strings,
+// and any key missing in a translation simply falls back to English.
+
+export const LANGUAGES = [
+  { code: "en", label: "English" },
+  { code: "zh", label: "中文" },
+];
+
+export const DEFAULT_LANGUAGE = "en";
+
+export const translations = {
+  en: {
+    "nav.home": "Home",
+    "nav.findBusiness": "Find a Business",
+    "nav.findPartner": "Find a Partner",
+    "nav.needHelp": "I Need Help",
+    "nav.opportunities": "Opportunities",
+    "nav.signIn": "Sign In",
+    "nav.register": "Register",
+    "nav.menu": "Menu",
+    "nav.closeMenu": "Close menu",
+
+    "home.hero.headline":
+      "Connecting China and South Africa through trusted business relationships.",
+    "home.hero.subhead":
+      "Discover verified companies, independent professionals, partners and opportunities spanning both markets — built for real trade, not just introductions.",
+    "home.hero.ctaFindBusiness": "Find a Business",
+    "home.hero.ctaFindPartner": "Find a Partner",
+    "home.hero.ctaNeedHelp": "I Need Help",
+    "home.hero.tagChina": "China",
+    "home.hero.tagSouthAfrica": "South Africa",
+
+    "home.howItWorks.title": "How the platform works",
+    "home.howItWorks.subhead":
+      "A straightforward path from first search to a working relationship.",
+    "home.howItWorks.step1.title": "Discover",
+    "home.howItWorks.step1.body":
+      "Search businesses, professionals and opportunities across both countries by industry, service and location.",
+    "home.howItWorks.step2.title": "Connect",
+    "home.howItWorks.step2.body":
+      "Reach out directly, request a quote, or start a conversation with a company or independent professional.",
+    "home.howItWorks.step3.title": "Verify",
+    "home.howItWorks.step3.body":
+      "Review experience, past projects, partnerships and references before you commit to working together.",
+    "home.howItWorks.step4.title": "Grow",
+    "home.howItWorks.step4.body":
+      "Build lasting partnerships, supply relationships and joint ventures across the China–South Africa corridor.",
+
+    "home.opportunities.title": "Business opportunities",
+    "home.opportunities.subhead": "A sample of active listings on the platform.",
+    "home.opportunities.viewAll": "View all opportunities",
+    "home.opportunities.demoLabel": "Sample listing",
+
+    "home.providers.title": "Featured businesses",
+    "home.providers.subhead":
+      "A sample of the companies and independent professionals on the platform.",
+    "home.providers.viewAll": "View all businesses",
+    "home.providers.demoLabel": "Sample profile",
+    "home.providers.typeCompany": "Company",
+    "home.providers.typeIndependent": "Independent Professional",
+    "home.providers.verified": "Verified Provider",
+    "home.providers.unverified": "Not yet verified",
+
+    "home.cta.title": "Ready to find your next business relationship?",
+    "home.cta.subhead":
+      "Join the platform connecting Chinese and South African businesses, professionals and investors.",
+    "home.cta.button": "Register your business",
+
+    "footer.tagline":
+      "A platform connecting Chinese and South African businesses, professionals and investors.",
+    "footer.platform": "Platform",
+    "footer.company": "Company",
+    "footer.legal": "Legal",
+    "footer.rights": "All rights reserved.",
+    "footer.demoNotice":
+      "Prototype in active development. Businesses, opportunities and figures shown are sample data for demonstration purposes.",
+
+    "placeholder.comingSoon": "Coming soon",
+    "placeholder.body":
+      "This section is part of the platform's foundation and will be built out in a future stage.",
+    "placeholder.backHome": "Back to home",
+  },
+
+  zh: {
+    "nav.home": "首页",
+    "nav.findBusiness": "寻找企业",
+    "nav.findPartner": "寻找合作伙伴",
+    "nav.needHelp": "我需要帮助",
+    "nav.opportunities": "商机",
+    "nav.signIn": "登录",
+    "nav.register": "注册",
+    "nav.menu": "菜单",
+    "nav.closeMenu": "关闭菜单",
+
+    "home.hero.headline": "以信任为纽带，连接中国与南非的商业往来。",
+    "home.hero.subhead":
+      "在此发现两国经过核实的企业、独立专业人士、合作伙伴与商机——服务于真实贸易，而不仅仅是简单的引荐。",
+    "home.hero.ctaFindBusiness": "寻找企业",
+    "home.hero.ctaFindPartner": "寻找合作伙伴",
+    "home.hero.ctaNeedHelp": "我需要帮助",
+    "home.hero.tagChina": "中国",
+    "home.hero.tagSouthAfrica": "南非",
+
+    "home.howItWorks.title": "平台运作方式",
+    "home.howItWorks.subhead": "从首次搜索到建立稳定合作关系的清晰路径。",
+    "home.howItWorks.step1.title": "发现",
+    "home.howItWorks.step1.body":
+      "按行业、服务与地区搜索两国的企业、专业人士与商机。",
+    "home.howItWorks.step2.title": "联系",
+    "home.howItWorks.step2.body":
+      "直接联系企业或独立专业人士，索取报价，或开始沟通。",
+    "home.howItWorks.step3.title": "核实",
+    "home.howItWorks.step3.body":
+      "在合作之前，查看其经验、过往项目、合作关系与推荐信息。",
+    "home.howItWorks.step4.title": "发展",
+    "home.howItWorks.step4.body":
+      "在中国与南非之间建立长期合作关系、供应关系与合资企业。",
+
+    "home.opportunities.title": "商机",
+    "home.opportunities.subhead": "平台部分活跃商机示例。",
+    "home.opportunities.viewAll": "查看全部商机",
+    "home.opportunities.demoLabel": "示例信息",
+
+    "home.providers.title": "精选企业",
+    "home.providers.subhead": "平台部分企业与独立专业人士示例。",
+    "home.providers.viewAll": "查看全部企业",
+    "home.providers.demoLabel": "示例资料",
+    "home.providers.typeCompany": "企业",
+    "home.providers.typeIndependent": "独立专业人士",
+    "home.providers.verified": "已认证服务商",
+    "home.providers.unverified": "尚未认证",
+
+    "home.cta.title": "准备好开启新的商业合作了吗？",
+    "home.cta.subhead": "加入连接中国与南非企业、专业人士与投资者的平台。",
+    "home.cta.button": "注册您的企业",
+
+    "footer.tagline": "一个连接中国与南非企业、专业人士与投资者的平台。",
+    "footer.platform": "平台",
+    "footer.company": "公司",
+    "footer.legal": "法律信息",
+    "footer.rights": "版权所有。",
+    "footer.demoNotice":
+      "原型仍在开发中。所展示的企业、商机及数据均为示例，仅供演示用途。",
+
+    "placeholder.comingSoon": "即将上线",
+    "placeholder.body": "该板块属于平台基础架构的一部分，将在后续阶段完善。",
+    "placeholder.backHome": "返回首页",
+  },
+};

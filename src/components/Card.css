@@ -1,0 +1,20 @@
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.card--accent-navy {
+  border-left: 3px solid var(--color-navy-800);
+}
+.card--accent-red {
+  border-left: 3px solid var(--color-red-600);
+}
+.card--accent-green {
+  border-left: 3px solid var(--color-green-600);
+}
+.card--accent-gold {
+  border-left: 3px solid var(--color-gold-500);
+}

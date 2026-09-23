@@ -1,0 +1,45 @@
+import { Building2, User, MapPin, BadgeCheck } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
+import Card from "./Card";
+import "./ProviderCard.css";
+
+export default function ProviderCard({ provider }) {
+  const { t } = useLanguage();
+  const TypeIcon = provider.type === "company" ? Building2 : User;
+  const typeLabel =
+    provider.type === "company"
+      ? t("home.providers.typeCompany")
+      : t("home.providers.typeIndependent");
+
+  return (
+    <Card accent={provider.verified ? "gold" : null} className="provider-card">
+      <div className="provider-card__top">
+        <span className="provider-card__type">
+          <TypeIcon size={16} aria-hidden="true" />
+          {typeLabel}
+        </span>
+        {provider.verified ? (
+          <span className="provider-card__verified">
+            <BadgeCheck size={14} aria-hidden="true" />
+            {t("home.providers.verified")}
+          </span>
+        ) : (
+          <span className="provider-card__unverified">
+            {t("home.providers.unverified")}
+          </span>
+        )}
+      </div>
+
+      <h3 className="provider-card__name">{provider.name}</h3>
+      <p className="provider-card__category">{provider.category}</p>
+      <p className="provider-card__description">{provider.description}</p>
+
+      <div className="provider-card__meta">
+        <span>
+          <MapPin size={14} aria-hidden="true" /> {provider.location}
+        </span>
+        <span>{provider.experience}</span>
+      </div>
+    </Card>
+  );
+}

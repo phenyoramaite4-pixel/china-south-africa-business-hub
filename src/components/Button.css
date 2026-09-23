@@ -1,0 +1,68 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-weight: var(--fw-semibold);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--transition-fast),
+    border-color var(--transition-fast), color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--md {
+  padding: 0.75rem 1.5rem;
+  font-size: var(--fs-sm);
+}
+
+.btn--sm {
+  padding: 0.5rem 1rem;
+  font-size: var(--fs-xs);
+}
+
+.btn__icon {
+  flex-shrink: 0;
+}
+
+/* Primary: solid navy */
+.btn--primary {
+  background: var(--color-navy-900);
+  color: var(--color-text-inverse);
+  border-color: var(--color-navy-900);
+}
+
+.btn--primary:hover {
+  background: var(--color-navy-800);
+  border-color: var(--color-navy-800);
+}
+
+/* Secondary: outline on light backgrounds */
+.btn--secondary {
+  background: transparent;
+  color: var(--color-navy-900);
+  border-color: var(--color-border-strong);
+}
+
+.btn--secondary:hover {
+  border-color: var(--color-navy-900);
+  background: var(--color-bg-alt);
+}
+
+/* Ghost: minimal, used inside colored surfaces */
+.btn--ghost {
+  background: transparent;
+  color: inherit;
+  border-color: currentColor;
+}
+
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}

@@ -1,0 +1,30 @@
+import { MapPin, Tag } from "lucide-react";
+import Card from "./Card";
+import "./OpportunityCard.css";
+
+const ACCENT_BY_TYPE = {
+  Partnership: "navy",
+  Investment: "gold",
+  Supplier: "green",
+  "Joint Venture": "red",
+};
+
+export default function OpportunityCard({ opportunity }) {
+  const accent = ACCENT_BY_TYPE[opportunity.type] || "navy";
+
+  return (
+    <Card accent={accent} className="opportunity-card">
+      <span className="opportunity-card__type">{opportunity.type}</span>
+      <h3 className="opportunity-card__title">{opportunity.title}</h3>
+      <p className="opportunity-card__description">{opportunity.description}</p>
+      <div className="opportunity-card__meta">
+        <span>
+          <MapPin size={14} aria-hidden="true" /> {opportunity.location}
+        </span>
+        <span>
+          <Tag size={14} aria-hidden="true" /> {opportunity.category}
+        </span>
+      </div>
+    </Card>
+  );
+}
