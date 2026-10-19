@@ -13,6 +13,7 @@ const en = {
   "nav.opportunities": "Opportunities",
   "nav.signIn": "Sign In",
   "nav.register": "Register",
+  "nav.admin": "Admin",
   "nav.menu": "Menu",
   "nav.closeMenu": "Close Menu",
 
@@ -635,6 +636,7 @@ const zh = {
   "nav.opportunities": "商业机会",
   "nav.signIn": "登录",
   "nav.register": "注册",
+  "nav.admin": "管理员",
   "nav.menu": "菜单",
   "nav.closeMenu": "关闭菜单",
 

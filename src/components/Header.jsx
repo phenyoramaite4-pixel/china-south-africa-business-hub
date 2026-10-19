@@ -99,11 +99,19 @@ export default function Header() {
           <div className="site-header__actions">
             <LanguageSwitcher className="site-header__lang" />
 
-            <Button to="/profile" variant="secondary" size="sm">
+            <Button
+              to="/profile"
+              variant="secondary"
+              size="sm"
+            >
               {t("nav.signIn")}
             </Button>
 
-            <Button to="/profile" variant="primary" size="sm">
+            <Button
+              to="/register"
+              variant="primary"
+              size="sm"
+            >
               {t("nav.register")}
             </Button>
           </div>
@@ -112,12 +120,20 @@ export default function Header() {
             type="button"
             className="site-header__menu-btn"
             aria-label={
-              mobileOpen ? t("nav.closeMenu") : t("nav.menu")
+              mobileOpen
+                ? t("nav.closeMenu")
+                : t("nav.menu")
             }
             aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen((open) => !open)}
+            onClick={() =>
+              setMobileOpen((open) => !open)
+            }
           >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileOpen ? (
+              <X size={24} />
+            ) : (
+              <Menu size={24} />
+            )}
           </button>
         </div>
       </header>

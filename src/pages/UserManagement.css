@@ -1,0 +1,565 @@
+/* =========================================================
+   USER MANAGEMENT
+   China–South Africa Business Hub
+   Matches the existing Admin dashboard visual language
+   ========================================================= */
+
+.user-management-page {
+  width: 100%;
+}
+
+.user-management {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 40px;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.user-management__hero {
+  position: relative;
+  overflow: hidden;
+  padding: 30px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #0b2545 0%, #123c63 100%);
+  color: #ffffff;
+  box-shadow: 0 14px 34px rgba(11, 37, 69, 0.14);
+}
+
+.user-management__back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 9px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.user-management__back-button:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.user-management__hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.user-management__eyebrow,
+.user-management__section-eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: #16a085;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.user-management__hero h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.user-management__hero p {
+  max-width: 680px;
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.user-management__hero-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f39c12;
+}
+
+/* =========================================================
+   SUMMARY CARDS
+   ========================================================= */
+
+.user-management__summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.user-management__summary-card {
+  min-height: 112px;
+  padding: 20px;
+  border: 1px solid #e7edf2;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(11, 37, 69, 0.06);
+}
+
+.user-management__summary-card span {
+  display: block;
+  margin-bottom: 12px;
+  color: #687786;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.user-management__summary-card strong {
+  display: block;
+  color: #0b2545;
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+/* =========================================================
+   MAIN WORKSPACE
+   ========================================================= */
+
+.user-management__workspace {
+  overflow: hidden;
+  border: 1px solid #e7edf2;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(11, 37, 69, 0.07);
+}
+
+.user-management__workspace-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px;
+  border-bottom: 1px solid #edf1f4;
+}
+
+.user-management__workspace-header h2 {
+  margin: 0;
+  color: #0b2545;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.user-management__workspace-header > svg {
+  color: #16a085;
+}
+
+/* =========================================================
+   CONTROLS
+   ========================================================= */
+
+.user-management__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 24px;
+  border-bottom: 1px solid #edf1f4;
+  background: #fbfcfd;
+}
+
+.user-management__search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(440px, 100%);
+  min-height: 42px;
+  padding: 0 13px;
+  border: 1px solid #dce4ea;
+  border-radius: 10px;
+  background: #ffffff;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.user-management__search:focus-within {
+  border-color: #16a085;
+  box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.1);
+}
+
+.user-management__search svg {
+  flex: 0 0 auto;
+  color: #81909d;
+}
+
+.user-management__search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #0b2545;
+  font: inherit;
+  font-size: 13px;
+}
+
+.user-management__search input::placeholder {
+  color: #9aa7b2;
+}
+
+.user-management__filters {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.user-management__filters button {
+  padding: 8px 13px;
+  border: 1px solid #dce4ea;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #526272;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.user-management__filters button:hover {
+  border-color: #16a085;
+  color: #16a085;
+}
+
+.user-management__filters button.is-active {
+  border-color: #16a085;
+  background: #16a085;
+  color: #ffffff;
+}
+
+/* =========================================================
+   USER LIST
+   ========================================================= */
+
+.user-management__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-management__user-card {
+  display: grid;
+  grid-template-columns: 46px minmax(220px, 1.7fr) minmax(150px, 0.9fr) auto auto;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 24px;
+  border-bottom: 1px solid #edf1f4;
+  transition: background 160ms ease;
+}
+
+.user-management__user-card:last-child {
+  border-bottom: 0;
+}
+
+.user-management__user-card:hover {
+  background: #fbfcfd;
+}
+
+.user-management__user-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(22, 160, 133, 0.1);
+  color: #16a085;
+}
+
+.user-management__user-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.user-management__user-main strong {
+  overflow: hidden;
+  color: #0b2545;
+  font-size: 14px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-management__user-main span {
+  color: #526272;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.user-management__user-main small {
+  overflow: hidden;
+  color: #8a98a5;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-management__user-location {
+  min-width: 0;
+}
+
+.user-management__user-location span {
+  display: block;
+  margin-bottom: 4px;
+  color: #9aa7b2;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.user-management__user-location strong {
+  display: block;
+  overflow: hidden;
+  color: #405262;
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.user-management__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.user-management__status.is-approved {
+  background: rgba(22, 160, 133, 0.11);
+  color: #13856f;
+}
+
+.user-management__status.is-pending {
+  background: rgba(243, 156, 18, 0.12);
+  color: #b87408;
+}
+
+.user-management__status.is-changes {
+  background: rgba(11, 37, 69, 0.09);
+  color: #0b2545;
+}
+
+.user-management__status.is-rejected {
+  background: rgba(192, 57, 43, 0.1);
+  color: #b33a2c;
+}
+
+/* =========================================================
+   VIEW BUTTON
+   ========================================================= */
+
+.user-management__view-button {
+  min-width: 70px;
+  padding: 9px 13px;
+  border: 1px solid #0b2545;
+  border-radius: 8px;
+  background: #0b2545;
+  color: #ffffff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.user-management__view-button:hover {
+  border-color: #16a085;
+  background: #16a085;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.user-management__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.user-management__empty svg {
+  margin-bottom: 14px;
+  color: #16a085;
+}
+
+.user-management__empty strong {
+  color: #0b2545;
+  font-size: 15px;
+}
+
+.user-management__empty span {
+  margin-top: 6px;
+  color: #8795a2;
+  font-size: 12px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+  .user-management__summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .user-management__controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .user-management__search {
+    width: 100%;
+  }
+
+  .user-management__filters {
+    width: 100%;
+  }
+
+  .user-management__user-card {
+    grid-template-columns: 46px minmax(0, 1fr) auto auto;
+  }
+
+  .user-management__user-location {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .user-management {
+    gap: 16px;
+  }
+
+  .user-management__hero {
+    padding: 22px;
+    border-radius: 16px;
+  }
+
+  .user-management__hero-content {
+    align-items: flex-start;
+  }
+
+  .user-management__hero-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .user-management__summary {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .user-management__summary-card {
+    min-height: 96px;
+    padding: 16px;
+  }
+
+  .user-management__summary-card strong {
+    font-size: 25px;
+  }
+
+  .user-management__workspace-header {
+    padding: 18px;
+  }
+
+  .user-management__controls {
+    padding: 15px 18px;
+  }
+
+  .user-management__user-card {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 15px 18px;
+  }
+
+  .user-management__user-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .user-management__status {
+    display: none;
+  }
+
+  .user-management__view-button {
+    min-width: 58px;
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-management__hero-content {
+    flex-direction: column;
+  }
+
+  .user-management__summary {
+    grid-template-columns: 1fr;
+  }
+
+  .user-management__filters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .user-management__filters button {
+    width: 100%;
+    padding: 8px 6px;
+  }
+
+  .user-management__user-card {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+  }
+
+  .user-management__user-main small {
+    max-width: 150px;
+  }
+}

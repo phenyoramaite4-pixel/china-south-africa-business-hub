@@ -557,3 +557,64 @@ gap: 8px;
 padding: 19px;
 }
 }
+
+/* Save / bookmark opportunity button */
+
+.opportunity-save-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 9px 13px;
+  border: 1px solid #d8e0e9;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #334155;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.opportunity-save-button:hover {
+  border-color: #173b68;
+  background: #f3f7fb;
+  transform: translateY(-1px);
+}
+
+.opportunity-save-button.is-saved {
+  border-color: #b8d8c7;
+  background: #edf8f1;
+  color: #17643b;
+}
+
+.opportunity-save-button:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.3);
+  outline-offset: 2px;
+}
+
+.opportunity-list-card__save-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #edf0f4;
+}
+
+.opportunity-detail__top .opportunity-save-button {
+  margin-left: auto;
+}
+
+@media (max-width: 520px) {
+  .opportunity-save-button {
+    min-height: 36px;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
+}

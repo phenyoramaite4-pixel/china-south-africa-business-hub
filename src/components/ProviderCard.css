@@ -2,15 +2,15 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 
 .provider-card__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--space-2);
-  margin-bottom: var(--space-1);
 }
 
 .provider-card__type {
@@ -19,7 +19,7 @@
   gap: var(--space-1);
   font-size: var(--fs-xs);
   font-weight: var(--fw-semibold);
-  color: var(--color-navy-800);
+  color: var(--color-text-muted);
 }
 
 .provider-card__verified {
@@ -39,12 +39,14 @@
 .provider-card__name {
   font-size: var(--fs-md);
   font-family: var(--font-display);
+  margin: 0;
 }
 
 .provider-card__category {
   font-size: var(--fs-sm);
   font-weight: var(--fw-medium);
   color: var(--color-text-muted);
+  margin: 0;
 }
 
 .provider-card__description {
@@ -52,12 +54,13 @@
   color: var(--color-text-muted);
   line-height: var(--lh-normal);
   flex: 1;
+  margin: 0;
 }
 
 .provider-card__meta {
   display: flex;
-  justify-content: space-between;
-  gap: var(--space-3);
+  flex-wrap: wrap;
+  gap: var(--space-4);
   font-size: var(--fs-xs);
   color: var(--color-text-faint);
   padding-top: var(--space-3);
@@ -68,4 +71,42 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
+}
+
+.provider-card__profile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  color: var(--color-navy-800);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  margin-top: auto;
+  transition: color var(--transition-base);
+}
+
+.provider-card__click-area {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.provider-card__click-area:focus-visible {
+  outline: 2px solid var(--color-gold-500);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.provider-card__click-area:hover .provider-card__profile-link {
+  color: var(--color-gold-600);
 }

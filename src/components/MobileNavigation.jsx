@@ -25,7 +25,10 @@ export default function MobileNavigation({ open = false, onClose }) {
         onClick={onClose}
       />
 
-      <nav className="mobile-nav__panel" aria-label="Mobile">
+      <nav
+        className="mobile-nav__panel"
+        aria-label="Mobile"
+      >
         <ul className="mobile-nav__list">
           {navItems.map((item) => (
             <li key={item.to}>
@@ -34,7 +37,9 @@ export default function MobileNavigation({ open = false, onClose }) {
                 end={item.end}
                 onClick={onClose}
                 className={({ isActive }) =>
-                  `mobile-nav__link ${isActive ? "is-active" : ""}`
+                  `mobile-nav__link ${
+                    isActive ? "is-active" : ""
+                  }`
                 }
               >
                 {t(item.key)}
@@ -56,7 +61,7 @@ export default function MobileNavigation({ open = false, onClose }) {
           </Button>
 
           <Button
-            to="/profile"
+            to="/register"
             variant="primary"
             onClick={onClose}
             className="mobile-nav__button"
