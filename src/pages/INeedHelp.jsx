@@ -1,3 +1,4 @@
+
 import { useMemo, useState } from "react";
 import {
   ArrowRight,
@@ -22,6 +23,8 @@ const CATEGORY_RULES = [
     keywords: [
       "move",
       "moving",
+      "relocate",
+      "relocation",
       "transport",
       "transportation",
       "equipment",
@@ -46,6 +49,7 @@ const CATEGORY_RULES = [
       "trade",
       "trading",
       "customs",
+      "customs clearance",
       "进口",
       "出口",
       "贸易",
@@ -87,6 +91,9 @@ const CATEGORY_RULES = [
       "lawyer",
       "legal",
       "law",
+      "attorney",
+      "legal assistance",
+      "legal advice",
       "compliance",
       "contract",
       "regulation",
@@ -134,7 +141,6 @@ const CATEGORY_RULES = [
       "industrial",
       "机械",
       "工业设备",
-      "设备",
     ],
   },
   {
@@ -166,55 +172,174 @@ const CATEGORY_RULES = [
   },
 ];
 
-function detectCategory(text) {
-  const normalized = text.trim().toLowerCase();
+const MAX_SERVICES = 3;
+const MAX_PROVIDERS_PER_SERVICE = 8;
 
-  if (!normalized) return null;
-
-  let bestMatch = null;
-  let bestScore = 0;
-
-  for (const rule of CATEGORY_RULES) {
-    const score = rule.keywords.reduce((total, keyword) => {
-      return total + (normalized.includes(keyword.toLowerCase()) ? 1 : 0);
-    }, 0);
-
-    if (score > bestScore) {
-      bestScore = score;
-      bestMatch = rule.category;
-    }
-  }
-
-  return bestMatch;
-}
-
-function matchesRequest(provider, request) {
-  const normalized = request.trim().toLowerCase();
-
-  if (!normalized) return true;
-
-  const searchableText = [
+function getSearchableText(provider) {
+  return [
     provider.name,
     provider.category,
     provider.description,
     provider.location,
     ...(provider.services || []),
   ]
+    .filter(Boolean)
     .join(" ")
     .toLowerCase();
+}
+
+/**
+ * Break a request into separate parts, identify the best category
+ * for each part, and return no more than three unique categories.
+ */
+function detectCategories(text) {
+  const normalized = text.trim().toLowerCase();
+
+  if (!normalized) return [];
+
+  const segments = normalized
+    .split(
+      /[,;.!?\n]+|\b(?:as well as|and|also|plus|additionally)\b|以及|并且|还有|另外|同时/gi
+    )
+    .map((segment) => segment.trim())
+    .filter((segment) => segment.length > 1);
+
+  const detected = [];
+
+  for (const segment of segments) {
+    const scores = CATEGORY_RULES.map((rule, index) => {
+      const matchingKeywords = rule.keywords.filter((keyword) =>
+        segment.includes(keyword.toLowerCase())
+      );
+
+      return {
+        category: rule.category,
+        score: matchingKeywords.length,
+        index,
+      };
+    });
+
+    scores.sort(
+      (a, b) => b.score - a.score || a.index - b.index
+    );
+
+    const bestMatch = scores[0];
+
+    if (
+      bestMatch &&
+      bestMatch.score > 0 &&
+      !detected.includes(bestMatch.category)
+    ) {
+      detected.push(bestMatch.category);
+    }
+
+    if (detected.length >= MAX_SERVICES) {
+      break;
+    }
+  }
+
+  // If a request has no clear conjunctions, examine the whole request.
+  // This also helps when the user enters a single, detailed sentence.
+  if (detected.length === 0) {
+    const scores = CATEGORY_RULES.map((rule, index) => ({
+      category: rule.category,
+      score: rule.keywords.filter((keyword) =>
+        normalized.includes(keyword.toLowerCase())
+      ).length,
+      index,
+    }));
+
+    scores
+      .filter((item) => item.score > 0)
+      .sort(
+        (a, b) => b.score - a.score || a.index - b.index
+      )
+      .slice(0, MAX_SERVICES)
+      .forEach((item) => {
+        if (!detected.includes(item.category)) {
+          detected.push(item.category);
+        }
+      });
+  }
+
+  return detected.slice(0, MAX_SERVICES);
+}
+
+function matchesRequest(provider, request) {
+  const normalized = request.trim().toLowerCase();
+
+  if (!normalized) return false;
+
+  const searchableText = getSearchableText(provider);
 
   const words = normalized
     .split(/\s+/)
     .map((word) => word.replace(/[^\p{L}\p{N}&-]/gu, ""))
     .filter((word) => word.length > 2);
 
-  if (!words.length) return true;
+  return words.some((word) => searchableText.includes(word));
+}
 
-  const directMatches = words.filter((word) =>
-    searchableText.includes(word)
-  ).length;
+function matchesCategory(provider, category) {
+  const searchableText = getSearchableText(provider);
+  const normalizedCategory = category.toLowerCase();
 
-  return directMatches > 0;
+  // Prefer the provider's actual category.
+  if (
+    provider.category?.toLowerCase() === normalizedCategory
+  ) {
+    return true;
+  }
+
+  // Also match providers whose listed services name the category.
+  if (
+    (provider.services || []).some((service) =>
+      service.toLowerCase().includes(normalizedCategory)
+    )
+  ) {
+    return true;
+  }
+
+  // Use category-specific keywords for additional relevant matches.
+  const rule = CATEGORY_RULES.find(
+    (item) => item.category === category
+  );
+
+  if (!rule) return false;
+
+  return rule.keywords.some((keyword) =>
+    searchableText.includes(keyword.toLowerCase())
+  );
+}
+
+function getCategoryLabel(category, t, isChinese) {
+  if (!isChinese) return category;
+
+  const keys = [
+    `providerCategories.${category}`,
+    `findBusiness.categories.${category}`,
+  ];
+
+  for (const key of keys) {
+    const translated = t(key);
+
+    if (translated && translated !== key) {
+      return translated;
+    }
+  }
+
+  return category;
+}
+
+function getProviderText(provider, field, t) {
+  const key = `data.providers.${provider.id}.${field}`;
+  const translated = t(key);
+
+  if (translated && translated !== key) {
+    return translated;
+  }
+
+  return provider[field] || "";
 }
 
 export default function INeedHelp() {
@@ -225,32 +350,56 @@ export default function INeedHelp() {
   const [providerType, setProviderType] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const detectedCategory = useMemo(
-    () => detectCategory(request),
+  const isChinese = language === "zh";
+
+  const detectedCategories = useMemo(
+    () => detectCategories(request),
     [request]
   );
 
-  const matchingProviders = useMemo(() => {
+  const resultsByService = useMemo(() => {
     if (!submitted || !providerType) return [];
 
-    return providers
-      .filter((provider) => provider.type === providerType)
-      .filter((provider) => {
-        if (detectedCategory) {
-          return (
-            provider.category === detectedCategory ||
-            provider.services?.some((service) =>
-              service
-                .toLowerCase()
-                .includes(detectedCategory.toLowerCase())
-            )
-          );
-        }
+    // If categories were detected, search for each service independently.
+    if (detectedCategories.length > 0) {
+      return detectedCategories.map((category) => {
+        const matchingProviders = providers
+          .filter((provider) => provider.type === providerType)
+          .filter((provider) =>
+            matchesCategory(provider, category)
+          )
+          .slice(0, MAX_PROVIDERS_PER_SERVICE);
 
-        return matchesRequest(provider, request);
-      })
-      .slice(0, 8);
-  }, [submitted, providerType, detectedCategory, request]);
+        return {
+          category,
+          providers: matchingProviders,
+        };
+      });
+    }
+
+    // Fallback for requests that don't match a known category.
+    const generalMatches = providers
+      .filter((provider) => provider.type === providerType)
+      .filter((provider) => matchesRequest(provider, request))
+      .slice(0, MAX_PROVIDERS_PER_SERVICE);
+
+    return [
+      {
+        category: null,
+        providers: generalMatches,
+      },
+    ];
+  }, [
+    submitted,
+    providerType,
+    detectedCategories,
+    request,
+  ]);
+
+  const totalMatches = resultsByService.reduce(
+    (total, group) => total + group.providers.length,
+    0
+  );
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -265,8 +414,6 @@ export default function INeedHelp() {
     setProviderType("");
     setSubmitted(false);
   }
-
-  const isChinese = language === "zh";
 
   return (
     <PageContainer width="lg" className="need-help-page">
@@ -285,8 +432,8 @@ export default function INeedHelp() {
 
         <p className="need-help-hero__description">
           {isChinese
-            ? "告诉我们您需要什么帮助，我们会根据您的需求帮助您找到合适的服务提供商。"
-            : "Tell us what you need help with and we'll help you find relevant service providers."}
+            ? "告诉我们您需要什么帮助。一次最多描述三种服务需求，我们会分别为您寻找相关服务提供商。"
+            : "Tell us what your business needs. Describe up to three different services in one request, and we’ll search for relevant providers for each service."}
         </p>
       </section>
 
@@ -296,7 +443,9 @@ export default function INeedHelp() {
             className="need-help-assistant__label"
             htmlFor="help-request"
           >
-            {isChinese ? "您需要什么帮助？" : "What do you need help with?"}
+            {isChinese
+              ? "您需要什么帮助？"
+              : "What do you need help with?"}
           </label>
 
           <div className="need-help-assistant__input-wrap">
@@ -311,29 +460,45 @@ export default function INeedHelp() {
               }}
               placeholder={
                 isChinese
-                  ? "例如：我需要把建筑设备从约翰内斯堡运到德班。"
-                  : "For example: I need to move construction equipment from Johannesburg to Durban."
+                  ? "例如：我需要运输设备、法律协助以及清关服务。"
+                  : "For example: I need to move my equipment, get legal assistance, and arrange customs clearance."
               }
               rows={4}
             />
           </div>
 
-          {detectedCategory ? (
-            <div className="need-help-detected">
+          <div className="need-help-detected">
+            <span>
+              {isChinese
+                ? "识别的服务："
+                : "Services identified:"}
+            </span>
+
+            {detectedCategories.length > 0 ? (
+              <div className="need-help-detected__list">
+                {detectedCategories.map((category) => (
+                  <span
+                    className="need-help-detected__item"
+                    key={category}
+                  >
+                    {getCategoryLabel(category, t, isChinese)}
+                  </span>
+                ))}
+              </div>
+            ) : (
               <span>
-                {isChinese ? "识别的服务：" : "Service identified:"}
-              </span>
-              <strong>
                 {isChinese
-                  ? t(
-                      `findBusiness.categories.${detectedCategory}`
-                    ) !== `findBusiness.categories.${detectedCategory}`
-                    ? t(`findBusiness.categories.${detectedCategory}`)
-                    : detectedCategory
-                  : detectedCategory}
-              </strong>
-            </div>
-          ) : null}
+                  ? "请描述您的服务需求"
+                  : "Describe your needs to identify services"}
+              </span>
+            )}
+          </div>
+
+          <p className="need-help-assistant__hint">
+            {isChinese
+              ? `最多识别 ${MAX_SERVICES} 种不同服务。`
+              : `Up to ${MAX_SERVICES} different services can be identified in one request.`}
+          </p>
 
           <div className="need-help-type">
             <span className="need-help-type__label">
@@ -348,6 +513,7 @@ export default function INeedHelp() {
                 className={`need-help-type__option ${
                   providerType === "company" ? "is-selected" : ""
                 }`}
+                aria-pressed={providerType === "company"}
                 onClick={() => {
                   setProviderType("company");
                   setSubmitted(false);
@@ -356,7 +522,9 @@ export default function INeedHelp() {
                 <Building2 size={22} aria-hidden="true" />
 
                 <span>
-                  <strong>{isChinese ? "企业" : "Companies"}</strong>
+                  <strong>
+                    {isChinese ? "企业" : "Companies"}
+                  </strong>
                   <small>
                     {isChinese
                       ? "注册的服务企业"
@@ -368,8 +536,11 @@ export default function INeedHelp() {
               <button
                 type="button"
                 className={`need-help-type__option ${
-                  providerType === "independent" ? "is-selected" : ""
+                  providerType === "independent"
+                    ? "is-selected"
+                    : ""
                 }`}
+                aria-pressed={providerType === "independent"}
                 onClick={() => {
                   setProviderType("independent");
                   setSubmitted(false);
@@ -399,7 +570,9 @@ export default function INeedHelp() {
               variant="primary"
               disabled={!request.trim() || !providerType}
             >
-              {isChinese ? "查找服务提供商" : "Find Service Providers"}
+              {isChinese
+                ? "查找服务提供商"
+                : "Find Service Providers"}
               <ArrowRight size={17} aria-hidden="true" />
             </Button>
 
@@ -417,7 +590,7 @@ export default function INeedHelp() {
         </form>
       </Card>
 
-      {submitted ? (
+      {submitted && (
         <section className="need-help-results">
           <div className="need-help-results__header">
             <div>
@@ -426,107 +599,181 @@ export default function INeedHelp() {
               </span>
 
               <h2>
-                {detectedCategory
-                  ? isChinese
-                    ? t(`providerCategories.${detectedCategory}`) !==
-                      `providerCategories.${detectedCategory}`
-                      ? t(`providerCategories.${detectedCategory}`)
-                      : detectedCategory
-                    : detectedCategory
-                  : isChinese
-                    ? "根据您的需求找到的结果"
-                    : "Providers matching your request"}
+                {isChinese
+                  ? "您的服务需求匹配结果"
+                  : "Results for your service needs"}
               </h2>
             </div>
 
             <span className="need-help-results__count">
-              {matchingProviders.length}{" "}
-              {isChinese ? "个结果" : "results"}
+              {totalMatches} {isChinese ? "个结果" : "results"}
             </span>
           </div>
 
-          {matchingProviders.length > 0 ? (
-            <div className="need-help-results__grid">
-              {matchingProviders.map((provider) => {
-                const dataKey = `data.providers.${provider.id}`;
+          {totalMatches > 0 ? (
+            <div className="need-help-results__services">
+              {resultsByService.map((group, index) => (
+                <section
+                  className="need-help-results__group"
+                  key={group.category || "general"}
+                >
+                  <div className="need-help-results__group-header">
+                    <div>
+                      <span className="need-help-results__service-number">
+                        {isChinese
+                          ? `服务 ${index + 1}`
+                          : `SERVICE ${index + 1}`}
+                      </span>
 
-                const providerName = t(`${dataKey}.name`);
-                const providerCategory = t(`${dataKey}.category`);
-                const providerDescription = t(`${dataKey}.description`);
-                const providerLocation = t(`${dataKey}.location`);
-                const providerExperience = t(`${dataKey}.experience`);
-                const providerPricing = t(`${dataKey}.pricing`);
-
-                return (
-                  <Card
-                    key={provider.id}
-                    className="need-help-provider"
-                    accent={provider.verified ? "gold" : null}
-                  >
-                    <div className="need-help-provider__top">
-                      <span className="need-help-provider__type">
-                        {provider.type === "company" ? (
-                          <Building2 size={15} aria-hidden="true" />
-                        ) : (
-                          <User size={15} aria-hidden="true" />
-                        )}
-
-                        {provider.type === "company"
-                          ? isChinese
-                            ? "企业"
-                            : "Company"
+                      <h3>
+                        {group.category
+                          ? getCategoryLabel(
+                              group.category,
+                              t,
+                              isChinese
+                            )
                           : isChinese
-                            ? "独立专业人士"
-                            : "Independent Professional"}
-                      </span>
-
-                      {provider.verified ? (
-                        <span className="need-help-provider__verified">
-                          <BadgeCheck size={14} aria-hidden="true" />
-                          {isChinese ? "已验证" : "Verified"}
-                        </span>
-                      ) : null}
+                            ? "相关服务提供商"
+                            : "Relevant Service Providers"}
+                      </h3>
                     </div>
 
-                    <h3>{providerName}</h3>
+                    <span className="need-help-results__count">
+                      {group.providers.length}{" "}
+                      {isChinese ? "个结果" : "matches"}
+                    </span>
+                  </div>
 
-                    <p className="need-help-provider__category">
-                      {providerCategory}
-                    </p>
+                  {group.providers.length > 0 ? (
+                    <div className="need-help-results__grid">
+                      {group.providers.map((provider) => (
+                        <Card
+                          key={provider.id}
+                          className="need-help-provider"
+                          accent={provider.verified ? "gold" : null}
+                        >
+                          <div className="need-help-provider__top">
+                            <span className="need-help-provider__type">
+                              {provider.type === "company" ? (
+                                <Building2
+                                  size={15}
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <User
+                                  size={15}
+                                  aria-hidden="true"
+                                />
+                              )}
 
-                    <p className="need-help-provider__description">
-                      {providerDescription}
-                    </p>
+                              {provider.type === "company"
+                                ? isChinese
+                                  ? "企业"
+                                  : "Company"
+                                : isChinese
+                                  ? "独立专业人士"
+                                  : "Independent Professional"}
+                            </span>
 
-                    <div className="need-help-provider__meta">
-                      <span>{providerLocation}</span>
+                            {provider.verified && (
+                              <span className="need-help-provider__verified">
+                                <BadgeCheck
+                                  size={14}
+                                  aria-hidden="true"
+                                />
+                                {isChinese ? "已验证" : "Verified"}
+                              </span>
+                            )}
+                          </div>
 
-                      <span>
-                        {providerExperience}{" "}
-                        {isChinese ? "经验" : "experience"}
-                      </span>
+                          <h3>
+                            {getProviderText(
+                              provider,
+                              "name",
+                              t
+                            )}
+                          </h3>
+
+                          <p className="need-help-provider__category">
+                            {getProviderText(
+                              provider,
+                              "category",
+                              t
+                            )}
+                          </p>
+
+                          <p className="need-help-provider__description">
+                            {getProviderText(
+                              provider,
+                              "description",
+                              t
+                            )}
+                          </p>
+
+                          <div className="need-help-provider__meta">
+                            <span>
+                              {getProviderText(
+                                provider,
+                                "location",
+                                t
+                              )}
+                            </span>
+
+                            <span>
+                              {getProviderText(
+                                provider,
+                                "experience",
+                                t
+                              )}{" "}
+                              {isChinese ? "经验" : "experience"}
+                            </span>
+                          </div>
+
+                          <div className="need-help-provider__footer">
+                            <span>
+                              {getProviderText(
+                                provider,
+                                "pricing",
+                                t
+                              )}
+                            </span>
+
+                            <button
+                              type="button"
+                              onClick={() =>
+                                navigate(`/provider/${provider.id}`)
+                              }
+                            >
+                              {isChinese
+                                ? "查看资料"
+                                : "View Profile"}
+                              <ArrowRight
+                                size={15}
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </div>
+                        </Card>
+                      ))}
                     </div>
-
-                    <div className="need-help-provider__footer">
-                      <span>{providerPricing}</span>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          navigate(`/provider/${provider.id}`)
-                        }
-                      >
-                        {isChinese ? "查看资料" : "View Profile"}
-                        <ArrowRight size={15} aria-hidden="true" />
-                      </button>
-                    </div>
-                  </Card>
-                );
-              })}
+                  ) : (
+                    <Card className="need-help-empty">
+                      <p>
+                        {isChinese
+                          ? "暂时没有找到此类服务的匹配提供商。"
+                          : "No matching providers were found for this service."}
+                      </p>
+                    </Card>
+                  )}
+                </section>
+              ))}
             </div>
           ) : (
             <Card className="need-help-empty">
-              <MessageCircleQuestion size={26} aria-hidden="true" />
+              <MessageCircleQuestion
+                size={26}
+                aria-hidden="true"
+              />
 
               <h3>
                 {isChinese
@@ -536,8 +783,8 @@ export default function INeedHelp() {
 
               <p>
                 {isChinese
-                  ? "尝试描述更多细节，或重新开始并选择其他服务提供商类型。"
-                  : "Try describing your requirement in more detail, or start over and choose another provider type."}
+                  ? "尝试描述更多细节，或选择其他服务提供商类型。"
+                  : "Try describing your requirements differently, or choose another provider type."}
               </p>
 
               <Button
@@ -552,11 +799,11 @@ export default function INeedHelp() {
 
           <p className="need-help-demo-note">
             {isChinese
-              ? "演示说明：以上企业和专业人士均为原型演示用虚构示例数据，并非真实验证的服务提供商。"
-              : "Demo notice: The businesses and professionals shown are fictional sample listings for prototype purposes and are not real verified providers."}
+              ? "演示说明：以上企业和专业人士均为原型演示用示例数据，尚不能据此确认其真实身份或资质。"
+              : "Demo notice: These are sample listings for the prototype. Their real-world identity and credentials have not been established by this demo."}
           </p>
         </section>
-      ) : null}
+      )}
     </PageContainer>
   );
 }

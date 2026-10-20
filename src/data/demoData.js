@@ -4763,6 +4763,63 @@ export const providers = [
     contact: "+27 81 000 1050",
   },
 
+
+  {
+    id: "p51",
+    name: "Ubuntu Shield Insurance Brokers (Demo)",
+    type: "company",
+    category: "Insurance",
+    location: "Johannesburg, Gauteng",
+    description:
+      "Demo insurance brokerage supporting businesses with business insurance, public liability, property cover and risk advisory.",
+    services: [
+      "Business Insurance",
+      "Public Liability Cover",
+      "Commercial Property Cover",
+      "Risk Advisory",
+    ],
+    verified: false,
+    video: false,
+    videoLanguage: "English",
+    experience: "Demo profile",
+    projectsWorkedOn: 0,
+    projectsWorkedOnDetails: [],
+    partneredCompanies: 0,
+    partneredCompaniesDetails: [],
+    previousProjects: 0,
+    previousProjectsDetails: [],
+    references: [],
+    pricing: "Quote based on business requirements",
+    contact: "Contact details not yet provided",
+  },
+  {
+    id: "p52",
+    name: "Cross-Border Business Cover (Demo)",
+    type: "company",
+    category: "Insurance",
+    location: "Johannesburg, Gauteng",
+    description:
+      "Demo insurance provider profile focused on goods-in-transit, cargo insurance and cross-border business risks.",
+    services: [
+      "Goods-in-Transit Insurance",
+      "Cargo Insurance",
+      "Import and Export Cover",
+      "Cross-Border Risk Cover",
+    ],
+    verified: false,
+    video: false,
+    videoLanguage: "English",
+    experience: "Demo profile",
+    projectsWorkedOn: 0,
+    projectsWorkedOnDetails: [],
+    partneredCompanies: 0,
+    partneredCompaniesDetails: [],
+    previousProjects: 0,
+    previousProjectsDetails: [],
+    references: [],
+    pricing: "Quote based on cargo and route requirements",
+    contact: "Contact details not yet provided",
+  },
 ];
 
 export const opportunities = [
