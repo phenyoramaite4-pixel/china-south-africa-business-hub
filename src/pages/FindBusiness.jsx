@@ -224,7 +224,7 @@ export default function FindBusiness() {
                   {CATEGORY_LABELS[item]
                     ? t(CATEGORY_LABELS[item])
                     : item === "Insurance"
-                      ? "Insurance / 保险"
+                      ? "Insurance"
                       : item}
                 </option>
               ))}

@@ -1,79 +1,145 @@
-import { Building2, User, MapPin, BadgeCheck, ArrowRight } from "lucide-react";
+
+import {
+  Building2,
+  User,
+  MapPin,
+  BadgeCheck,
+  ArrowRight,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import Card from "./Card";
 import "./ProviderCard.css";
 
 export default function ProviderCard({ provider }) {
-const { t } = useLanguage();
-const navigate = useNavigate();
+  const { t } = useLanguage();
+  const navigate = useNavigate();
 
-const TypeIcon = provider.type === "company" ? Building2 : User;
+  const TypeIcon = provider.type === "company" ? Building2 : User;
 
-const typeLabel =
-provider.type === "company"
-? t("home.providers.typeCompany")
-: t("home.providers.typeIndependent");
+  // Use the translation when available; otherwise use the actual data.
+  function getText(key, fallback) {
+    const translated = t(key);
 
-const dataKey = "data.providers." + provider.id;
-function openProfile() {
-navigate(`/provider/${provider.id}`);
-}
+    if (
+      typeof translated === "string" &&
+      translated.trim() !== "" &&
+      translated !== key
+    ) {
+      return translated;
+    }
 
-return (
-<Card
-accent={provider.verified ? "gold" : null}
-className="provider-card"
->
-<button
-type="button"
-onClick={openProfile}
-className="provider-card__click-area"
-aria-label={`${t("providerCard.viewProfile")}: ${t(
-          `${dataKey}.name`
-        )}`}
-> <div className="provider-card__top"> <span className="provider-card__type"> <TypeIcon size={16} aria-hidden="true" />
-{typeLabel} </span>
+    return fallback ?? "";
+  }
 
-      {provider.verified ? (
-        <span className="provider-card__verified">
-          <BadgeCheck size={14} aria-hidden="true" />
-          {t("home.providers.verified")}
-        </span>
-      ) : (
-        <span className="provider-card__unverified">
-          {t("home.providers.unverified")}
-        </span>
-      )}
-    </div>
+  const dataKey = `data.providers.${provider.id}`;
 
-    <h3 className="provider-card__name">
-      {t(`${dataKey}.name`)}
-    </h3>
+  const typeLabel = getText(
+    provider.type === "company"
+      ? "home.providers.typeCompany"
+      : "home.providers.typeIndependent",
+    provider.type === "company" ? "Company" : "Independent Professional"
+  );
 
-    <p className="provider-card__category">
-      {t(`${dataKey}.category`)}
-    </p>
+  const providerName = getText(
+    `${dataKey}.name`,
+    provider.name
+  );
 
-    <p className="provider-card__description">
-      {t(`${dataKey}.description`)}
-    </p>
+  const providerCategory = getText(
+    `${dataKey}.category`,
+    provider.category
+  );
 
-    <div className="provider-card__meta">
-      <span>
-        <MapPin size={14} aria-hidden="true" />{" "}
-        {t(`${dataKey}.location`)}
-      </span>
+  const providerDescription = getText(
+    `${dataKey}.description`,
+    provider.description
+  );
 
-      <span>{t(`${dataKey}.experience`)}</span>
-    </div>
+  const providerLocation = getText(
+    `${dataKey}.location`,
+    provider.location
+  );
 
-    <div className="provider-card__profile-link">
-      <span>{t("providerCard.viewProfile")}</span>
-      <ArrowRight size={16} aria-hidden="true" />
-    </div>
-  </button>
-</Card>
+  const providerExperience = getText(
+    `${dataKey}.experience`,
+    provider.experience
+  );
 
-);
+  const verifiedLabel = getText(
+    "home.providers.verified",
+    "Verified"
+  );
+
+  const unverifiedLabel = getText(
+    "home.providers.unverified",
+    "Unverified"
+  );
+
+  const viewProfileLabel = getText(
+    "providerCard.viewProfile",
+    "View profile"
+  );
+
+  function openProfile() {
+    navigate(`/provider/${provider.id}`);
+  }
+
+  return (
+    <Card
+      accent={provider.verified ? "gold" : null}
+      className="provider-card"
+    >
+      <button
+        type="button"
+        onClick={openProfile}
+        className="provider-card__click-area"
+        aria-label={`${viewProfileLabel}: ${providerName}`}
+      >
+        <div className="provider-card__top">
+          <span className="provider-card__type">
+            <TypeIcon size={16} aria-hidden="true" />
+            {typeLabel}
+          </span>
+
+          {provider.verified ? (
+            <span className="provider-card__verified">
+              <BadgeCheck size={14} aria-hidden="true" />
+              {verifiedLabel}
+            </span>
+          ) : (
+            <span className="provider-card__unverified">
+              {unverifiedLabel}
+            </span>
+          )}
+        </div>
+
+        <h3 className="provider-card__name">
+          {providerName}
+        </h3>
+
+        <p className="provider-card__category">
+          {providerCategory}
+        </p>
+
+        <p className="provider-card__description">
+          {providerDescription}
+        </p>
+
+        <div className="provider-card__meta">
+          <span>
+            <MapPin size={14} aria-hidden="true" />{" "}
+            {providerLocation}
+          </span>
+
+          <span>{providerExperience}</span>
+        </div>
+
+        <div className="provider-card__profile-link">
+          <span>{viewProfileLabel}</span>
+          <ArrowRight size={16} aria-hidden="true" />
+        </div>
+      </button>
+    </Card>
+  );
 }

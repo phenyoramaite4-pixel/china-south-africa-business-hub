@@ -1,4 +1,5 @@
-﻿export const DEFAULT_LANGUAGE = "en";
+﻿
+export const DEFAULT_LANGUAGE = "en";
 
 export const LANGUAGES = [
   { code: "en", label: "English" },
@@ -89,30 +90,39 @@ const en = {
   "findBusiness.companies": "Companies",
   "findBusiness.professionals": "Independent Professionals",
   "findBusiness.verifiedOnly": "Verified Only",
+
   "findPartner.title": "Find a Partner",
   "findPartner.description":
     "Find potential business, investment, distribution and strategic partners.",
+
   "needHelp.title": "I Need Help",
   "needHelp.description":
     "Tell the Hub what you need and explore relevant businesses and professionals.",
+
   "opportunities.title": "Business Opportunities",
   "opportunities.description":
     "Explore sample partnership, investment, supplier and joint venture opportunities.",
+
   "arrivalGuide.title": "Business Arrival Guide",
   "arrivalGuide.description":
     "Practical information for businesses entering and operating in South Africa.",
+
   "messages.title": "Messages",
   "messages.description":
     "Your business conversations and enquiries will appear here.",
+
   "profile.title": "My Profile",
   "profile.description":
     "Manage your business profile, account information and platform activity.",
+
   "dashboard.title": "Business Dashboard",
   "dashboard.description":
     "Manage your business listing, enquiries, opportunities and account activity.",
+
   "admin.title": "Admin",
   "admin.description":
     "Platform administration, verification and business management tools.",
+
   "notFound.title": "Page Not Found",
   "notFound.description":
     "The page you are looking for does not exist or has moved.",
@@ -626,6 +636,20 @@ const en = {
   "data.providers.p50.description":
     "Independent supplier sourcing consultant helping businesses identify suitable local and international suppliers.",
   "data.providers.p50.experience": "6 years",
+
+  "data.providers.p51.name": "Ubuntu Shield Insurance Brokers (Demo)",
+  "data.providers.p51.category": "Insurance",
+  "data.providers.p51.location": "Johannesburg, Gauteng",
+  "data.providers.p51.description":
+    "Demo insurance brokerage supporting businesses with business insurance, public liability, property cover and risk advisory.",
+  "data.providers.p51.experience": "Demo profile",
+
+  "data.providers.p52.name": "Cross-Border Business Cover (Demo)",
+  "data.providers.p52.category": "Insurance",
+  "data.providers.p52.location": "Johannesburg, Gauteng",
+  "data.providers.p52.description":
+    "Demo insurance provider profile focused on goods-in-transit, cargo insurance and cross-border business risks.",
+  "data.providers.p52.experience": "Demo profile",
 };
 
 const zh = {
@@ -712,30 +736,39 @@ const zh = {
   "findBusiness.companies": "企业",
   "findBusiness.professionals": "独立专业人士",
   "findBusiness.verifiedOnly": "仅显示已验证",
+
   "findPartner.title": "寻找合作伙伴",
   "findPartner.description":
     "寻找潜在的商业、投资、分销和战略合作伙伴。",
+
   "needHelp.title": "我需要帮助",
   "needHelp.description":
     "告诉平台您的需求，并探索相关企业和专业人士。",
+
   "opportunities.title": "商业机会",
   "opportunities.description":
     "探索示例合作、投资、供应商和合资企业机会。",
+
   "arrivalGuide.title": "商业入境指南",
   "arrivalGuide.description":
     "了解进入南非及在南非开展业务的实用信息。",
+
   "messages.title": "消息",
   "messages.description":
     "您的商业对话和咨询将在这里显示。",
+
   "profile.title": "我的资料",
   "profile.description":
     "管理您的企业资料、账户信息和平台活动。",
+
   "dashboard.title": "企业控制面板",
   "dashboard.description":
     "管理您的企业列表、咨询、商业机会和账户活动。",
+
   "admin.title": "管理后台",
   "admin.description":
     "平台管理、验证和企业管理工具。",
+
   "notFound.title": "页面未找到",
   "notFound.description":
     "您查找的页面不存在或已经移动。",
@@ -1249,6 +1282,20 @@ const zh = {
   "data.providers.p50.description":
     "独立供应商采购顾问，帮助企业寻找合适的本地和国际供应商。",
   "data.providers.p50.experience": "6 年经验",
+
+  "data.providers.p51.name": "Ubuntu Shield 保险经纪公司（演示）",
+  "data.providers.p51.category": "保险",
+  "data.providers.p51.location": "约翰内斯堡，豪登省",
+  "data.providers.p51.description":
+    "演示保险经纪服务，为企业提供商业保险、公众责任保险、财产保险和风险咨询服务。",
+  "data.providers.p51.experience": "演示资料",
+
+  "data.providers.p52.name": "跨境商业保障（演示）",
+  "data.providers.p52.category": "保险",
+  "data.providers.p52.location": "约翰内斯堡，豪登省",
+  "data.providers.p52.description":
+    "演示保险服务资料，主要涉及货物运输保险、货运保险及跨境商业风险保障。",
+  "data.providers.p52.experience": "演示资料",
 };
 
 export const translations = {
